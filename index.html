@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Validation with JavaScript</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Form Validation with JavaScript</h1>
+    </header>
+
+    <main>
+      <form id="form" action="" novalidate>
+        <label for="email">
+          Email *
+          <input type="email" name="email" id="email" minlength="7" required />
+          <span class="error" aria-live="polite"></span>
+        </label>
+
+        <label for="country">
+          Country *
+          <input type="text" name="country" id="country" required />
+        </label>
+
+        <label for="zip">
+          Zip *
+          <input type="number" name="zip" id="zip" minlength="5" required />
+        </label>
+
+        <label for="password">
+          Password *
+          <input
+            type="password"
+            name="password"
+            id="password"
+            minlength="8"
+            required
+          />
+        </label>
+
+        <label for="confirm-password">
+          Confirm Password *
+          <input
+            type="password"
+            name="confirm-password"
+            id="confirm-password"
+            minlength="8"
+            required
+          />
+        </label>
+
+        <button type="submit">Submit</button>
+      </form>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
