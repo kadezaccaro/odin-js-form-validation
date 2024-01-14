@@ -13,20 +13,44 @@
 
     <main>
       <form id="form" action="" novalidate>
-        <label for="email">
-          Email *
-          <input type="email" name="email" id="email" minlength="7" required />
-          <span class="error" aria-live="polite"></span>
+        <label for="name">
+          Name *
+          <input type="text" name="name" id="name" minlength="2" required />
         </label>
 
-        <label for="country">
-          Country *
-          <input type="text" name="country" id="country" required />
+        <label for="email">
+          Email *
+          <input
+            type="email"
+            name="email"
+            id="email"
+            pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+            required
+          />
+        </label>
+
+        <label for="country-code">
+          Country Abbreviation (3 letters) *
+          <input
+            type="text"
+            name="country-code"
+            id="country-code"
+            pattern="[A-Za-z]{3}"
+            placeholder="e.g. USA"
+            required
+          />
         </label>
 
         <label for="zip">
           Zip *
-          <input type="number" name="zip" id="zip" minlength="5" required />
+          <input
+            type="text"
+            name="zip"
+            id="zip"
+            minlength="5"
+            pattern="[0-9]*"
+            required
+          />
         </label>
 
         <label for="password">
@@ -51,7 +75,10 @@
           />
         </label>
 
-        <button type="submit">Submit</button>
+        <div class="submit-container">
+          <button class="submit-btn" type="submit">Submit</button>
+          <span class="submit-error-msg" aria-live="polite"></span>
+        </div>
       </form>
     </main>
 
