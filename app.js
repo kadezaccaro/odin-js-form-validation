@@ -86,12 +86,12 @@ confirmPassInput.addEventListener("input", () => {
 
 form.addEventListener("submit", (event) => {
   if (hasInvalidInputs()) {
-    submitErrorMsg.textContent =
-      "Please fix the errors in the form before submitting.";
+    submitErrorMsg.style.display = "block";
     showInvalidInputs();
     // Prevent the form from being submitted
     event.preventDefault();
   } else {
+    submitErrorMsg.style.display = "none";
     alert("High five! You've successfully submitted the form.");
   }
 });

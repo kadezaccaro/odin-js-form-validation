@@ -2,14 +2,15 @@
 
 :root {
   --clr-dark: #1a202c;
-  --clr-mid: #a0aec0;
+  --clr-mid: #e2e8f0;
   --clr-light: #f7fafc;
   --clr-accent: #60a5fa;
-  --clr-accent-dark: #3b82f6;
+  --clr-accent-light: #93c5fd;
   --clr-invalid: #fecaca;
-  --clr-invalid-border: #f56565;
+  --clr-invalid-dark: #d00b0b;
   --clr-valid: #c6f6d5;
-  --clr-valid-border: #68d391;
+  --clr-valid-dark: #68d391;
+  --clr-text: #1a1a1a;
 }
 
 /* || GENERAL */
@@ -25,28 +26,38 @@
 body {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 16px;
-  line-height: 1.5;
-  color: var(--clr-mid);
+  color: var(--clr-text);
   background-color: var(--clr-dark);
 }
 
 header {
-  padding: 80px 0;
+  padding: 80px 16px;
   text-align: center;
+  color: var(--clr-light);
 }
 
 main {
   display: grid;
   place-content: center;
+  margin: 0 16px 16px 16px;
+}
+
+.asterisk-explanation {
+  color: var(--clr-light);
+  font-size: 14px;
+  margin-bottom: 4px;
+  text-align: right;
 }
 
 /* || FORM */
 
 form {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   grid-gap: 24px;
-  max-width: 560px;
+  max-width: 360px;
+  background-color: var(--clr-mid);
+  padding: 24px;
+  border-radius: 8px;
 }
 
 input {
@@ -62,36 +73,36 @@ input {
 }
 
 input:focus {
-  outline: none;
+  outline: 2px solid var(--clr-accent);
 }
 
 input.touched:invalid {
   background-color: var(--clr-invalid);
-  border: 1px solid var(--clr-invalid-border);
+  border: 1px solid var(--clr-invalid-dark);
 }
 
 input:valid {
   background-color: var(--clr-valid);
-  border: 1px solid var(--clr-valid-border);
+  border: 1px solid var(--clr-valid-dark);
 }
 
 .error,
 .submit-error-msg {
-  color: var(--clr-invalid-border);
+  color: var(--clr-invalid-dark);
   font-size: 14px;
   margin-top: 4px;
   display: block;
 }
 
-.submit-container {
-  grid-column: 1 / 3;
+.submit-error-msg {
+  display: none;
 }
 
 .submit-btn {
   padding: 8px 16px;
   border: none;
   background-color: var(--clr-accent);
-  color: var(--clr-dark);
+  color: var(--clr-text);
   border-radius: 4px;
   cursor: pointer;
   width: 100%;
@@ -100,5 +111,5 @@ input:valid {
 }
 
 .submit-btn:hover {
-  background-color: var(--clr-accent-dark);
+  background-color: var(--clr-accent-light);
 }

@@ -12,6 +12,7 @@
     </header>
 
     <main>
+      <p class="asterisk-explanation">* Indicates required field</p>
       <form id="form" action="" novalidate>
         <label for="name">
           Name *
@@ -42,13 +43,14 @@
         </label>
 
         <label for="zip">
-          Zip *
+          Zip Code *
           <input
             type="text"
             name="zip"
             id="zip"
             minlength="5"
             pattern="[0-9]*"
+            placeholder="e.g. 30033"
             required
           />
         </label>
@@ -77,7 +79,9 @@
 
         <div class="submit-container">
           <button class="submit-btn" type="submit">Submit</button>
-          <span class="submit-error-msg" aria-live="polite"></span>
+          <span class="submit-error-msg" aria-live="polite"
+            >Please fix the errors in the form before submitting.</span
+          >
         </div>
       </form>
     </main>
