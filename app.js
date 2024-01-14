@@ -6,83 +6,68 @@ const zipInput = document.getElementById("zip");
 const passInput = document.getElementById("password");
 const confirmPassInput = document.getElementById("confirm-password");
 const submitErrorMsg = document.querySelector(".submit-error-msg");
+const inputs = document.querySelectorAll("input");
 
-// **************** INPUTS ****************
-
-nameInput.addEventListener("input", () => {
-  nameInput.classList.add("touched");
-
-  if (nameInput.validity.tooShort) {
-    showError(nameInput, "Please enter at least 2 characters.");
-  } else {
-    showError(nameInput, "");
-  }
+inputs.forEach((input) => {
+  input.addEventListener("input", (event) => {
+    const touchedInput = event.target;
+    markInputAsTouched(touchedInput);
+    validateInput(touchedInput);
+  });
 });
 
-emailInput.addEventListener("input", () => {
-  emailInput.classList.add("touched");
+// Prevents the user from seeing error messages before they interact with the form.
+function markInputAsTouched(input) {
+  input.classList.add("touched");
+}
 
-  if (emailInput.validity.patternMismatch || emailInput.validity.typeMismatch) {
-    showError(emailInput, "Please enter a valid email address.");
-  } else {
-    showError(emailInput, "");
+function validateInput(input) {
+  const errorMessage = getErrorMessage(input);
+  showError(input, errorMessage);
+}
+
+function getErrorMessage(input) {
+  switch (input.id) {
+    case "name":
+      return input.validity.tooShort
+        ? "Please enter at least 2 characters."
+        : "";
+    case "email":
+      return input.validity.patternMismatch || input.validity.typeMismatch
+        ? "Please enter a valid email address."
+        : "";
+    case "country-code":
+      return input.validity.patternMismatch
+        ? "Please enter a 3-letter ISO country code, like 'USA' or 'FRA'."
+        : "";
+    case "zip":
+      return input.value.length !== 5 || input.validity.patternMismatch
+        ? "Please enter a 5-digit zip code."
+        : "";
+    case "password":
+      return input.validity.tooShort
+        ? "Please enter at least 8 characters."
+        : "";
+    case "confirm-password":
+      return input.value !== passInput.value || input.validity.tooShort
+        ? "Passwords must match and be at least 8 characters long."
+        : "";
+    default:
+      return "";
   }
-});
+}
 
-countryInput.addEventListener("input", () => {
-  countryInput.classList.add("touched");
-
-  if (countryInput.validity.patternMismatch) {
-    showError(
-      countryInput,
-      "Please enter a 3-letter ISO country code, like 'USA' or 'FRA'."
-    );
-  } else {
-    showError(countryInput, "");
+function showError(input, message) {
+  input.setCustomValidity(message);
+  let errorSpan = input.parentNode.querySelector(".error");
+  if (!errorSpan) {
+    errorSpan = document.createElement("span");
+    errorSpan.className = "error";
+    errorSpan.setAttribute("aria-live", "polite");
+    input.parentNode.appendChild(errorSpan);
   }
-});
-
-zipInput.addEventListener("input", () => {
-  zipInput.classList.add("touched");
-
-  if (zipInput.value.length !== 5) {
-    showError(zipInput, "Please enter a 5-digit zip code.");
-  } else if (zipInput.validity.patternMismatch) {
-    showError(zipInput, "Please enter a 5-digit zip code.");
-  } else {
-    showError(zipInput, "");
-  }
-});
-
-passInput.addEventListener("input", () => {
-  passInput.classList.add("touched");
-
-  if (passInput.validity.tooShort) {
-    showError(passInput, "Please enter at least 8 characters.");
-  } else {
-    showError(passInput, "");
-  }
-});
-
-confirmPassInput.addEventListener("input", () => {
-  confirmPassInput.classList.add("touched");
-
-  console.log(confirmPassInput.validity);
-
-  if (
-    confirmPassInput.value !== passInput.value ||
-    passInput.validity.tooShort
-  ) {
-    showError(
-      confirmPassInput,
-      "Passwords must match and be at least 8 characters long."
-    );
-  } else {
-    showError(confirmPassInput, "");
-  }
-});
-
-// **************** FORM SUBMIT ****************
+  errorSpan.textContent = message;
+}
 
 form.addEventListener("submit", (event) => {
   if (hasInvalidInputs()) {
@@ -96,42 +81,17 @@ form.addEventListener("submit", (event) => {
   }
 });
 
+// Iterate over all inputs and check if they are valid or not
 function hasInvalidInputs() {
-  const inputs = document.querySelectorAll("input");
-  for (let i = 0; i < inputs.length; i++) {
-    if (!inputs[i].validity.valid) {
-      return true;
-    }
-  }
-  return false;
+  return Array.from(inputs).some((input) => !input.validity.valid);
 }
 
+// Mark all invalid inputs as "touched" so that they turn red and display their respective error messages
 function showInvalidInputs() {
-  const inputs = document.querySelectorAll("input");
-  for (let i = 0; i < inputs.length; i++) {
-    if (!inputs[i].validity.valid) {
-      // Mark all invalid inputs as "touched" so that they turn red
-      inputs[i].classList.add("touched");
-      showError(inputs[i], inputs[i].validationMessage);
+  inputs.forEach((input) => {
+    if (!input.validity.valid) {
+      input.classList.add("touched");
+      showError(input, input.validationMessage);
     }
-  }
-}
-
-// **************** ERROR MESSAGES ****************
-
-function showError(input, message) {
-  input.setCustomValidity(message);
-  // Check if the error message span already exists
-  let errorSpan = input.parentNode.querySelector(".error");
-
-  // If it doesn't exist, create it
-  if (!errorSpan) {
-    errorSpan = document.createElement("span");
-    errorSpan.className = "error";
-    errorSpan.setAttribute("aria-live", "polite");
-    input.parentNode.appendChild(errorSpan);
-  }
-
-  // Set the error message
-  errorSpan.textContent = message;
+  });
 }
